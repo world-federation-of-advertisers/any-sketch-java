@@ -1,8 +1,14 @@
-# Use C++17 language features.
-build --cxxopt='-std=c++17'
+# Use Clang as C/C++ compiler.
+build --repo_env='CC=clang'
 
-# Target JDK11.
+# Allow C++17 language features.
+build --repo_env='BAZEL_CXXOPTS=-std=c++17'
+
+# Use JDK 11.
 build --javabase=@bazel_tools//tools/jdk:remote_jdk11
+
+# Target Java language version 8.
+build --java_toolchain=@bazel_tools//tools/jdk:toolchain_java8
 
 # Build with address sanitizer (ASAN).
 build:asan --strip=never
