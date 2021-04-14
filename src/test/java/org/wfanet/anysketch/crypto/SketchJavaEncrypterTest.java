@@ -22,12 +22,12 @@ import java.util.Random;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.wfanet.anysketch.Sketch;
+import org.wfanet.anysketch.Sketch.Register;
+import org.wfanet.anysketch.SketchConfig;
+import org.wfanet.anysketch.SketchConfig.ValueSpec;
+import org.wfanet.anysketch.SketchConfig.ValueSpec.Aggregator;
 import org.wfanet.common.ElGamalPublicKey;
-import org.wfanet.measurement.api.v1alpha.Sketch;
-import org.wfanet.measurement.api.v1alpha.Sketch.Register;
-import org.wfanet.measurement.api.v1alpha.SketchConfig;
-import org.wfanet.measurement.api.v1alpha.SketchConfig.ValueSpec;
-import org.wfanet.measurement.api.v1alpha.SketchConfig.ValueSpec.Aggregator;
 
 @RunWith(JUnit4.class)
 public class SketchJavaEncrypterTest {

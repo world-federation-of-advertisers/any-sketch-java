@@ -31,13 +31,11 @@ import java.util.function.Consumer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.wfanet.anysketch.Sketch.Register;
 import org.wfanet.anysketch.aggregators.Aggregators;
 import org.wfanet.anysketch.distributions.Distributions;
 import org.wfanet.anysketch.fingerprinters.FarmFingerprinter;
 import org.wfanet.anysketch.fingerprinters.SaltedFingerprinter;
-import org.wfanet.measurement.api.v1alpha.Sketch;
-import org.wfanet.measurement.api.v1alpha.Sketch.Register;
-import org.wfanet.measurement.api.v1alpha.SketchConfig;
 
 @RunWith(JUnit4.class)
 public class SketchProtosTest {
@@ -62,7 +60,9 @@ public class SketchProtosTest {
               new ValueFunction(
                   "value-function-1", Aggregators.sum(), Distributions.oracle("feature1", 5, 105)),
               new ValueFunction(
-                  "value-function-2", Aggregators.unique(), Distributions.oracle("feature2", 6, 15))));
+                  "value-function-2",
+                  Aggregators.unique(),
+                  Distributions.oracle("feature2", 6, 15))));
 
   @Test
   public void fromAnySketch_invalidArgumentsFails() {
