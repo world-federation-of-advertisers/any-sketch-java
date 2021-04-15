@@ -30,7 +30,7 @@ java_library(
         "//src/main/java/org/wfanet/anysketch/aggregators",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
-        "//src/main/proto/wfa/measurement/api/v1alpha:sketch_java_proto",
+        "//src/main/proto/wfa/any_sketch:sketch_java_proto",
         "@maven//:com_google_guava_guava",
     ],
 )

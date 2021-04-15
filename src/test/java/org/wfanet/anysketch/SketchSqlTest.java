@@ -25,7 +25,6 @@ import java.nio.file.Paths;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.wfanet.measurement.api.v1alpha.SketchConfig;
 
 @RunWith(JUnit4.class)
 public class SketchSqlTest {

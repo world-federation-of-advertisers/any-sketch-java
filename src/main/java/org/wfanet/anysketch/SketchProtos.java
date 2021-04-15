@@ -21,20 +21,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Streams;
 import java.util.List;
 import org.wfanet.anysketch.AnySketch.Register;
+import org.wfanet.anysketch.SketchConfig.ValueSpec;
 import org.wfanet.anysketch.aggregators.Aggregator;
 import org.wfanet.anysketch.aggregators.Aggregators;
 import org.wfanet.anysketch.distributions.Distributions;
 import org.wfanet.anysketch.fingerprinters.FarmFingerprinter;
 import org.wfanet.anysketch.fingerprinters.Fingerprinter;
 import org.wfanet.anysketch.fingerprinters.SaltedFingerprinter;
-import org.wfanet.measurement.api.v1alpha.Distribution;
-import org.wfanet.measurement.api.v1alpha.ExponentialDistribution;
-import org.wfanet.measurement.api.v1alpha.GeometricDistribution;
-import org.wfanet.measurement.api.v1alpha.OracleDistribution;
-import org.wfanet.measurement.api.v1alpha.Sketch;
-import org.wfanet.measurement.api.v1alpha.SketchConfig;
-import org.wfanet.measurement.api.v1alpha.SketchConfig.ValueSpec;
-import org.wfanet.measurement.api.v1alpha.UniformDistribution;
 
 /** Utilities for converting between {@link AnySketch} object and {@link Sketch} protos. */
 @SuppressWarnings("UnstableApiUsage") // For toImmutableList and Streams.zip

@@ -28,8 +28,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.wfanet.anysketch.AnySketch;
+import org.wfanet.anysketch.SketchConfig;
 import org.wfanet.anysketch.SketchProtos;
-import org.wfanet.measurement.api.v1alpha.SketchConfig;
 
 @RunWith(JUnit4.class)
 public class ValueHistogramTest {

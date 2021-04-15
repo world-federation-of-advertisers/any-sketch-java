@@ -25,13 +25,10 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.wfanet.measurement.api.v1alpha.Distribution;
-import org.wfanet.measurement.api.v1alpha.Distribution.DistributionChoiceCase;
-import org.wfanet.measurement.api.v1alpha.ExponentialDistribution;
-import org.wfanet.measurement.api.v1alpha.SketchConfig;
-import org.wfanet.measurement.api.v1alpha.SketchConfig.IndexSpec;
-import org.wfanet.measurement.api.v1alpha.SketchConfig.ValueSpec;
-import org.wfanet.measurement.api.v1alpha.SketchConfig.ValueSpec.Aggregator;
+import org.wfanet.anysketch.Distribution.DistributionChoiceCase;
+import org.wfanet.anysketch.SketchConfig.IndexSpec;
+import org.wfanet.anysketch.SketchConfig.ValueSpec;
+import org.wfanet.anysketch.SketchConfig.ValueSpec.Aggregator;
 
 /** Converts a SketchConfig into an SQL query. */
 public class SketchSql {

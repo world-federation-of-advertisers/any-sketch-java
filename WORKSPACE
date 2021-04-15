@@ -123,13 +123,6 @@ compat_repositories()
 load("//build/wfa:repositories.bzl", "wfa_repo_archive")
 
 wfa_repo_archive(
-    name = "wfa_measurement_proto",
-    commit = "1303ecbf4e81901f30f5a400b80921871b701b37",
-    repo = "cross-media-measurement-api",
-    sha256 = "5552203aa815659eace1cb96c84c45ef1290ab87bba7e424311ae629b159b212",
-)
-
-wfa_repo_archive(
     name = "wfa_rules_swig",
     commit = "653d1bdcec85a9373df69920f35961150cf4b1b6",
     repo = "rules_swig",
@@ -138,7 +131,7 @@ wfa_repo_archive(
 
 wfa_repo_archive(
     name = "any_sketch",
-    commit = "c8af6252d16096796ac40545756a3b9cf752ed6d",
+    commit = "026f1345bbb569cbaafab9d58811cab495839cb0",
     repo = "any-sketch",
-    sha256 = "809853931d28a3a954bfda198871befc7de101934587c98d3e303498030ee399",
+    sha256 = "d7eaa34b61cd2dc6668556ddeac3f7faaf001f295308fee904c77b619fcb55c9",
 )
