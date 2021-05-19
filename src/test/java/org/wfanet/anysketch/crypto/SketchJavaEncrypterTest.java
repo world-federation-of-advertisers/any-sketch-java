@@ -27,7 +27,6 @@ import org.wfanet.anysketch.Sketch.Register;
 import org.wfanet.anysketch.SketchConfig;
 import org.wfanet.anysketch.SketchConfig.ValueSpec;
 import org.wfanet.anysketch.SketchConfig.ValueSpec.Aggregator;
-import org.wfanet.common.ElGamalPublicKey;
 
 @RunWith(JUnit4.class)
 public class SketchJavaEncrypterTest {
