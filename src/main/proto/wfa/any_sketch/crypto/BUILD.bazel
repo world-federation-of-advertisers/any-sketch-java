@@ -1,5 +1,3 @@
-load("@rules_proto//proto:defs.bzl", "proto_library")
-
 package(default_visibility = ["//visibility:public"])
 
 java_proto_library(
@@ -7,4 +5,9 @@ java_proto_library(
     deps = [
         "@any_sketch//src/main/proto/wfa/any_sketch/crypto:sketch_encryption_methods_proto",
     ],
+)
+
+java_proto_library(
+    name = "el_gamal_key_java_proto",
+    deps = ["@any_sketch//src/main/proto/wfa/any_sketch/crypto:el_gamal_key_proto"],
 )

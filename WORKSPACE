@@ -131,7 +131,7 @@ wfa_repo_archive(
 
 wfa_repo_archive(
     name = "any_sketch",
-    commit = "026f1345bbb569cbaafab9d58811cab495839cb0",
+    commit = "995fe42006a56f926e568c0b02adae5f834a813d",
     repo = "any-sketch",
-    sha256 = "d7eaa34b61cd2dc6668556ddeac3f7faaf001f295308fee904c77b619fcb55c9",
+    sha256 = "2477a9cb52a6a415b0d498f7ba19010965145af4a449029df2e64d2379d3cc01",
 )

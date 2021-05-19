@@ -6,3 +6,8 @@ java_proto_library(
     name = "sketch_java_proto",
     deps = ["@any_sketch//src/main/proto/wfa/any_sketch:sketch_proto"],
 )
+
+java_proto_library(
+    name = "noise_parameters_java_proto",
+    deps = ["@any_sketch//src/main/proto/wfa/any_sketch:differential_privacy_proto"],
+)
