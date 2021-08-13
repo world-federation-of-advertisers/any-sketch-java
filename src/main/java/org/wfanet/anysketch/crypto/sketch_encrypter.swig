@@ -14,7 +14,7 @@
 
 %include "exception.i"
 %{
-#include "src/main/cc/any_sketch/crypto/sketch_encrypter_adapter.h"
+#include "any_sketch/crypto/sketch_encrypter_adapter.h"
 %}
 
 // Convert C++ ::absl::StatusOr<std::string> to a Java byte
