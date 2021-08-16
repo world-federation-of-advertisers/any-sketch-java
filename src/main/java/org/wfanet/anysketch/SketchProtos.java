@@ -55,8 +55,8 @@ public class SketchProtos {
     return builder.build();
   }
 
-  public static AnySketch toAnySketch(SketchConfig config, Sketch sketch) {
-    AnySketch anySketch = toAnySketch(config);
+  public static AnySketch toAnySketch(Sketch sketch) {
+    AnySketch anySketch = toAnySketch(sketch.getConfig());
     List<ValueFunction> valueFunctions = anySketch.getValueFunctions();
     for (Sketch.Register register : sketch.getRegistersList()) {
       List<Long> values = decodeValuesFromProto(valueFunctions, register.getValuesList());

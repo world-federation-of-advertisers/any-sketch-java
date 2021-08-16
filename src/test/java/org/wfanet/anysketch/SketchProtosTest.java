@@ -117,7 +117,7 @@ public class SketchProtosTest {
     insertSomeItems.accept(anySketch1);
 
     Sketch sketch1 = SketchProtos.fromAnySketch(anySketch1, config);
-    AnySketch anySketch2 = SketchProtos.toAnySketch(config, sketch1);
+    AnySketch anySketch2 = SketchProtos.toAnySketch(sketch1);
     Sketch sketch2 = SketchProtos.fromAnySketch(anySketch2, config);
 
     assertThat(sketch1)
