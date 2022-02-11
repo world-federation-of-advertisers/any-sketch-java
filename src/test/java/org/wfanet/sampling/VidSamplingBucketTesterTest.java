@@ -53,6 +53,16 @@ public class VidSamplingBucketTesterTest {
   }
 
   @Test
+  public void testHashVidToUnitIntervalValuesInRange() throws IOException {
+    // Tests that values returned by VID hasher are between 0 and 1.
+    VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
+    for (long i = 0L; i < 1000; i++) {
+      double vid = vidTester.hashVidToUnitInterval(i);
+      assertTrue(String.format("vid %d hashes to %f", i, vid), (0.0 <= vid) && (vid <= 1.0));
+    }
+  }
+
+  @Test
   public void testHashVidToUnitIntervalChiSquaredDistribution() throws IOException {
     // Tests that when a large number of samples are drawn, the distribution
     // passes the chi-squared goodness of fit test.
