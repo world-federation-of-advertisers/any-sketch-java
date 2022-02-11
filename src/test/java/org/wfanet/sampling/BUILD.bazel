@@ -11,4 +11,3 @@ java_test(
         "@maven//:com_google_truth_truth",
     ],
 )
-
