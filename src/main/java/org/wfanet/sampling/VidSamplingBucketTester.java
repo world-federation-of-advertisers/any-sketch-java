@@ -1,4 +1,4 @@
-// Copyright 2020 The Cross-Media Measurement Authors
+// Copyright 2022 The Cross-Media Measurement Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class VidSamplingBucketTester {
   private final double maskDivisor = 1.0 / (double) Ieee754MantissaMask;
 
   /** Hashes a vid to a real number in the interval [0, 1]. */
-  public double hashVidToUnitInterval(Long vid) {
+  public double hashVidToUnitInterval(long vid) {
     // FarmHash64 seems to be a reasonable choice for a hash function
     // because it is guaranteed to be the same across platforms and it
     // is relatively efficient to compute.  Note that it is not
@@ -44,16 +44,16 @@ public class VidSamplingBucketTester {
   }
 
   /**
-   * Returns true if the hashed vid is in the range from samplingIntervalStart to
+   * Returns true if the hashed VID is in the range from samplingIntervalStart to
    * samplingIntervalStart + samplingIntervalWidth, including wrap-around.
    *
-   * @param vid The vid that is to be checked.
-   * @param samplingIntervalStart The left endpoint of the vid sampling interval.
-   * @param samplingIntervalEnd The right endpoint of the vid sampling interval.
-   * @return True if the hashed vid is in the interval from samplingIntervalStart
+   * @param vid The VID that is to be checked.
+   * @param samplingIntervalStart The left endpoint of the VID sampling interval.
+   * @param samplingIntervalEnd The right endpoint of the VID sampling interval.
+   * @return True if the hashed VID is in the interval from samplingIntervalStart
    */
   public boolean vidIsInSamplingBucket(
-      Long vid, Float samplingIntervalStart, Float samplingIntervalWidth) {
+      long vid, float samplingIntervalStart, float samplingIntervalWidth) {
     Double hashedVid = hashVidToUnitInterval(vid);
 
     return ((samplingIntervalStart <= hashedVid

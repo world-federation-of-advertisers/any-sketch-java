@@ -1,4 +1,4 @@
-// Copyright 2020 The Cross-Media Measurement Authors
+// Copyright 2022 The Cross-Media Measurement Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,9 +14,8 @@
 
 package org.wfanet.estimation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import java.io.IOException;
 import org.junit.Test;
@@ -29,9 +28,9 @@ public class VidSamplingBucketTesterTest {
   @Test
   public void testHashVidToUnitIntervalSpecificValues() throws IOException {
     VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
-    assertEquals(vidTester.hashVidToUnitInterval(1L), 0.7444, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(2L), 0.5698, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(3L), 0.5212, 0.001);
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
   }
 
   @Test
@@ -39,17 +38,17 @@ public class VidSamplingBucketTesterTest {
     // Tests that if the same value is hashed at different times,
     // the same result is returned.
     VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
-    assertEquals(vidTester.hashVidToUnitInterval(1L), 0.7444, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(2L), 0.5698, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(3L), 0.5212, 0.001);
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
 
-    assertEquals(vidTester.hashVidToUnitInterval(1L), 0.7444, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(2L), 0.5698, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(3L), 0.5212, 0.001);
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
 
-    assertEquals(vidTester.hashVidToUnitInterval(1L), 0.7444, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(2L), 0.5698, 0.001);
-    assertEquals(vidTester.hashVidToUnitInterval(3L), 0.5212, 0.001);
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
   }
 
   @Test
@@ -58,7 +57,7 @@ public class VidSamplingBucketTesterTest {
     VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
     for (long i = 0L; i < 1000; i++) {
       double vid = vidTester.hashVidToUnitInterval(i);
-      assertTrue(String.format("vid %d hashes to %f", i, vid), (0.0 <= vid) && (vid <= 1.0));
+      assertWithMessage("vid %s hashes to %s", i, vid).that((0.0 <= vid) && (vid <= 1.0)).isTrue();
     }
   }
 
@@ -84,18 +83,18 @@ public class VidSamplingBucketTesterTest {
 
     // 16.91 is the 95th percentile of the chi-squared distribution with
     // 9 degrees of freedom.
-    assertTrue(chi_square_statistic < 16.91);
+    assertThat(chi_square_statistic).isLessThan(16.91);
   }
 
   @Test
   public void testVidIsInSamplingBucket() throws IOException {
     VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
 
-    assertEquals(vidTester.hashVidToUnitInterval(3L), 0.5212f, 0.001f);
-    assertTrue(vidTester.vidIsInSamplingBucket(3L, 0.5f, 0.1f));
-    assertFalse(vidTester.vidIsInSamplingBucket(3L, 0.5f, 0.01f));
-    assertFalse(vidTester.vidIsInSamplingBucket(3L, 0.55f, 0.1f));
-    assertFalse(vidTester.vidIsInSamplingBucket(3L, 0.9f, 0.6f));
-    assertTrue(vidTester.vidIsInSamplingBucket(3L, 0.9f, 0.7f));
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212f);
+    assertThat(vidTester.vidIsInSamplingBucket(3L, 0.5f, 0.1f)).isTrue();
+    assertThat(vidTester.vidIsInSamplingBucket(3L, 0.5f, 0.01f)).isFalse();
+    assertThat(vidTester.vidIsInSamplingBucket(3L, 0.55f, 0.1f)).isFalse();
+    assertThat(vidTester.vidIsInSamplingBucket(3L, 0.9f, 0.6f)).isFalse();
+    assertThat(vidTester.vidIsInSamplingBucket(3L, 0.9f, 0.7f)).isTrue();
   }
 }
