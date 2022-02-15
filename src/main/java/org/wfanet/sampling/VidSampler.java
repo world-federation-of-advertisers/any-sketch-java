@@ -23,17 +23,17 @@ import com.google.common.hash.Hashing;
  * <p>NOTE: IT IS IMPORTANT THAT ALL EDPS USE THE SAME METHOD FOR HASHING VIDS TO THE UNIT INTERVAL.
  * DO NOT CHANGE OR MODIFY THE WAY THAT HASH VALUES ARE COMPUTED.
  */
-public class VidSamplingBucketTester {
+public class VidSampler {
 
   // The mantissa of an IEEE 754 double is 52 bits.
-  private final long Ieee754MantissaMask = 0xf_ffff_ffff_ffffL;
+  private static final long Ieee754MantissaMask = 0xf_ffff_ffff_ffffL;
 
   // A divisor that is used to convert the lower 52 bits of the
   // fingerprinted value to a floating point value between 0 and 1.
-  private final double maskDivisor = 1.0 / (double) Ieee754MantissaMask;
+  private static final double maskDivisor = 1.0 / (double) Ieee754MantissaMask;
 
   /** Hashes a vid to a real number in the interval [0, 1]. */
-  public double hashVidToUnitInterval(long vid) {
+  public static double hashVidToUnitInterval(long vid) {
     // FarmHash64 seems to be a reasonable choice for a hash function
     // because it is guaranteed to be the same across platforms and it
     // is relatively efficient to compute.  Note that it is not
@@ -52,12 +52,12 @@ public class VidSamplingBucketTester {
    * @param samplingIntervalEnd The right endpoint of the VID sampling interval.
    * @return True if the hashed VID is in the interval from samplingIntervalStart
    */
-  public boolean vidIsInSamplingBucket(
+  public static boolean vidIsInSamplingBucket(
       long vid, float samplingIntervalStart, float samplingIntervalWidth) {
-    Double hashedVid = hashVidToUnitInterval(vid);
+    double hashedVid = hashVidToUnitInterval(vid);
+    final double samplingIntervalEnd = samplingIntervalStart + samplingIntervalWidth;
 
-    return ((samplingIntervalStart <= hashedVid
-            && hashedVid < samplingIntervalStart + samplingIntervalWidth)
-        || (hashedVid < samplingIntervalStart + samplingIntervalWidth - 1.0));
+    return ((samplingIntervalStart <= hashedVid && hashedVid < samplingIntervalEnd)
+        || (hashedVid < samplingIntervalEnd - 1.0));
   }
 }

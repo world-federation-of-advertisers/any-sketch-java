@@ -3,9 +3,9 @@ load("@rules_java//java:defs.bzl", "java_library")
 package(default_visibility = ["//visibility:public"])
 
 java_library(
-    name = "vid_sampling_bucket_tester",
+    name = "vid_sampler",
     srcs = [
-        "VidSamplingBucketTester.java",
+        "VidSampler.java",
     ],
     deps = [
         "@maven//:com_google_guava_guava",

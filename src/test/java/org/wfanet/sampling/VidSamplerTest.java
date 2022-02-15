@@ -23,11 +23,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class VidSamplingBucketTesterTest {
+public class VidSamplerTest {
 
   @Test
   public void testHashVidToUnitIntervalSpecificValues() throws IOException {
-    VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
+    VidSampler vidTester = new VidSampler();
     assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
     assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
     assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
@@ -37,7 +37,7 @@ public class VidSamplingBucketTesterTest {
   public void testHashVidToUnitIntervalConsistency() throws IOException {
     // Tests that if the same value is hashed at different times,
     // the same result is returned.
-    VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
+    VidSampler vidTester = new VidSampler();
     assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
     assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
     assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
@@ -54,7 +54,7 @@ public class VidSamplingBucketTesterTest {
   @Test
   public void testHashVidToUnitIntervalValuesInRange() throws IOException {
     // Tests that values returned by VID hasher are between 0 and 1.
-    VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
+    VidSampler vidTester = new VidSampler();
     for (long i = 0L; i < 1000; i++) {
       double vid = vidTester.hashVidToUnitInterval(i);
       assertWithMessage("vid %s hashes to %s", i, vid).that((0.0 <= vid) && (vid <= 1.0)).isTrue();
@@ -65,7 +65,7 @@ public class VidSamplingBucketTesterTest {
   public void testHashVidToUnitIntervalChiSquaredDistribution() throws IOException {
     // Tests that when a large number of samples are drawn, the distribution
     // passes the chi-squared goodness of fit test.
-    VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
+    VidSampler vidTester = new VidSampler();
     final int NSAMPLES = 1000;
     int[] buckets = new int[10];
     for (long i = 0L; i < NSAMPLES; i++) {
@@ -88,7 +88,7 @@ public class VidSamplingBucketTesterTest {
 
   @Test
   public void testVidIsInSamplingBucket() throws IOException {
-    VidSamplingBucketTester vidTester = new VidSamplingBucketTester();
+    VidSampler vidTester = new VidSampler();
 
     assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212f);
     assertThat(vidTester.vidIsInSamplingBucket(3L, 0.5f, 0.1f)).isTrue();

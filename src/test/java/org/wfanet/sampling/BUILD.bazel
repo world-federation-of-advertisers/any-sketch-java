@@ -3,11 +3,11 @@ load("@rules_java//java:defs.bzl", "java_test")
 java_test(
     name = "tests",
     srcs = [
-        "VidSamplingBucketTesterTest.java",
+        "VidSamplerTest.java",
     ],
-    test_class = "org.wfanet.estimation.VidSamplingBucketTesterTest",
+    test_class = "org.wfanet.estimation.VidSamplerTest",
     deps = [
-        "//src/main/java/org/wfanet/sampling:vid_sampling_bucket_tester",
+        "//src/main/java/org/wfanet/sampling:vid_sampler",
         "@maven//:com_google_truth_truth",
     ],
 )
