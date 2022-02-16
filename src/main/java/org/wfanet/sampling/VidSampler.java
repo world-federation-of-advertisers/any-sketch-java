@@ -41,7 +41,7 @@ public class VidSampler {
    * <p>Example usage: vidSampler = new VidSampler(Hashing.farmHashFingerprint64);
    *
    * @param hashFunction: The HashFunction that will be used for hashing VIDs. It is assumed that
-   *     the hash function generates hashed values whose lower 52 bits are approximately uniformly
+   *     the hash function generates hashed values whose lower 23 bits are approximately uniformly
    *     distributed in the unit interval. Farmhash Fingerprint64 is a reasonable choice because it
    *     can be computed efficiently and the hash value for a given input is guaranteed to be the
    *     same across platforms.
