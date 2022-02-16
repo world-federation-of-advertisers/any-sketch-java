@@ -14,33 +14,46 @@
 
 package org.wfanet.estimation;
 
+import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 
 /**
  * Filter VIDs by sampling bucket.
  *
- * <p>NOTE: IT IS IMPORTANT THAT ALL EDPS USE THE SAME METHOD FOR HASHING VIDS TO THE UNIT INTERVAL.
- * DO NOT CHANGE OR MODIFY THE WAY THAT HASH VALUES ARE COMPUTED.
+ * <p>NOTE: IT IS IMPORTANT THAT THE SAME HASHING FUNCTION BE USED FOR ANY TWO SKETCHES THAT MIGHT
+ * BE COMBINED BY THE SMPC, INCLUDING THE CASE WHEN THOSE SKETCHES ARE COMPUTED BY DIFFERENT EDPS.
  */
 public class VidSampler {
 
-  // The mantissa of an IEEE 754 double is 52 bits.
-  private static final long Ieee754MantissaMask = 0xf_ffff_ffff_ffffL;
+  // The mantissa of an IEEE 754 float is 23 bits.
+  private static final int Ieee754MantissaMask = 0x7f_ffff;
 
-  // A divisor that is used to convert the lower 52 bits of the
+  // A divisor that is used to convert the lower 23 bits of the
   // fingerprinted value to a floating point value between 0 and 1.
-  private static final double maskDivisor = 1.0 / (double) Ieee754MantissaMask;
+  private static final float maskDivisor = 1.0f / (float) Ieee754MantissaMask;
+
+  // The hash function that will be used for this VidSampler.
+  private HashFunction hashFunction;
+
+  /**
+   * Constructs a new VidSampler.
+   *
+   * <p>Example usage: vidSampler = new VidSampler(Hashing.farmHashFingerprint64);
+   *
+   * @param hashFunction: The HashFunction that will be used for hashing VIDs. It is assumed that
+   *     the hash function generates hashed values whose lower 52 bits are approximately uniformly
+   *     distributed in the unit interval. Farmhash Fingerprint64 is a reasonable choice because it
+   *     can be computed efficiently and the hash value for a given input is guaranteed to be the
+   *     same across platforms.
+   */
+  public VidSampler(HashFunction hashFunction) {
+    this.hashFunction = hashFunction;
+  }
 
   /** Hashes a vid to a real number in the interval [0, 1]. */
-  public static double hashVidToUnitInterval(long vid) {
-    // FarmHash64 seems to be a reasonable choice for a hash function
-    // because it is guaranteed to be the same across platforms and it
-    // is relatively efficient to compute.  Note that it is not
-    // cryptographically secure.
-    Hasher vidHasher = Hashing.farmHashFingerprint64().newHasher();
-
-    return maskDivisor * (double) (vidHasher.putLong(vid).hash().asLong() & Ieee754MantissaMask);
+  public float hashVidToUnitInterval(long vid) {
+    Hasher vidHasher = hashFunction.newHasher();
+    return maskDivisor * (float) (vidHasher.putLong(vid).hash().asInt() & Ieee754MantissaMask);
   }
 
   /**
@@ -52,10 +65,10 @@ public class VidSampler {
    * @param samplingIntervalEnd The right endpoint of the VID sampling interval.
    * @return True if the hashed VID is in the interval from samplingIntervalStart
    */
-  public static boolean vidIsInSamplingBucket(
+  public boolean vidIsInSamplingBucket(
       long vid, float samplingIntervalStart, float samplingIntervalWidth) {
-    double hashedVid = hashVidToUnitInterval(vid);
-    final double samplingIntervalEnd = samplingIntervalStart + samplingIntervalWidth;
+    float hashedVid = hashVidToUnitInterval(vid);
+    final float samplingIntervalEnd = samplingIntervalStart + samplingIntervalWidth;
 
     return ((samplingIntervalStart <= hashedVid && hashedVid < samplingIntervalEnd)
         || (hashedVid < samplingIntervalEnd - 1.0));

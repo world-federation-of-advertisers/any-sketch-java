@@ -17,6 +17,7 @@ package org.wfanet.estimation;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.hash.Hashing;
 import java.io.IOException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,36 +28,36 @@ public class VidSamplerTest {
 
   @Test
   public void testHashVidToUnitIntervalSpecificValues() throws IOException {
-    VidSampler vidTester = new VidSampler();
-    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
-    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
-    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
+    VidSampler vidTester = new VidSampler(Hashing.farmHashFingerprint64());
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001f).of(0.4637f);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001f).of(0.9473f);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001f).of(0.5410f);
   }
 
   @Test
   public void testHashVidToUnitIntervalConsistency() throws IOException {
     // Tests that if the same value is hashed at different times,
     // the same result is returned.
-    VidSampler vidTester = new VidSampler();
-    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
-    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
-    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
+    VidSampler vidTester = new VidSampler(Hashing.farmHashFingerprint64());
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001f).of(0.4637f);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001f).of(0.9473f);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001f).of(0.5410f);
 
-    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
-    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
-    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001f).of(0.4637f);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001f).of(0.9473f);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001f).of(0.5410f);
 
-    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001).of(0.7444);
-    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001).of(0.5698);
-    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212);
+    assertThat(vidTester.hashVidToUnitInterval(1L)).isWithin(0.001f).of(0.4637f);
+    assertThat(vidTester.hashVidToUnitInterval(2L)).isWithin(0.001f).of(0.9473f);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001f).of(0.5410f);
   }
 
   @Test
   public void testHashVidToUnitIntervalValuesInRange() throws IOException {
     // Tests that values returned by VID hasher are between 0 and 1.
-    VidSampler vidTester = new VidSampler();
+    VidSampler vidTester = new VidSampler(Hashing.farmHashFingerprint64());
     for (long i = 0L; i < 1000; i++) {
-      double vid = vidTester.hashVidToUnitInterval(i);
+      float vid = vidTester.hashVidToUnitInterval(i);
       assertWithMessage("vid %s hashes to %s", i, vid).that((0.0 <= vid) && (vid <= 1.0)).isTrue();
     }
   }
@@ -65,11 +66,11 @@ public class VidSamplerTest {
   public void testHashVidToUnitIntervalChiSquaredDistribution() throws IOException {
     // Tests that when a large number of samples are drawn, the distribution
     // passes the chi-squared goodness of fit test.
-    VidSampler vidTester = new VidSampler();
+    VidSampler vidTester = new VidSampler(Hashing.farmHashFingerprint64());
     final int NSAMPLES = 1000;
     int[] buckets = new int[10];
     for (long i = 0L; i < NSAMPLES; i++) {
-      double vid = vidTester.hashVidToUnitInterval(i);
+      float vid = vidTester.hashVidToUnitInterval(i);
       int bucket_id = (int) (vid * buckets.length);
       buckets[bucket_id]++;
     }
@@ -88,9 +89,9 @@ public class VidSamplerTest {
 
   @Test
   public void testVidIsInSamplingBucket() throws IOException {
-    VidSampler vidTester = new VidSampler();
+    VidSampler vidTester = new VidSampler(Hashing.farmHashFingerprint64());
 
-    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001).of(0.5212f);
+    assertThat(vidTester.hashVidToUnitInterval(3L)).isWithin(0.001f).of(0.5410f);
     assertThat(vidTester.vidIsInSamplingBucket(3L, 0.5f, 0.1f)).isTrue();
     assertThat(vidTester.vidIsInSamplingBucket(3L, 0.5f, 0.01f)).isFalse();
     assertThat(vidTester.vidIsInSamplingBucket(3L, 0.55f, 0.1f)).isFalse();
