@@ -23,7 +23,7 @@ import com.google.common.hash.Hasher;
  * <p>NOTE: IT IS IMPORTANT THAT THE SAME HASHING FUNCTION BE USED FOR ANY TWO SKETCHES THAT MIGHT
  * BE COMBINED BY THE SMPC, INCLUDING THE CASE WHEN THOSE SKETCHES ARE COMPUTED BY DIFFERENT EDPS.
  */
-public class VidSampler {
+public final class VidSampler {
 
   // The mantissa of an IEEE 754 float is 23 bits.
   private static final int Ieee754MantissaMask = 0x7f_ffff;
@@ -33,7 +33,7 @@ public class VidSampler {
   private static final float maskDivisor = 1.0f / (float) Ieee754MantissaMask;
 
   // The hash function that will be used for this VidSampler.
-  private HashFunction hashFunction;
+  private final HashFunction hashFunction;
 
   /**
    * Constructs a new VidSampler.
