@@ -35,6 +35,11 @@ public final class VidSampler {
   // The hash function that will be used for this VidSampler.
   private final HashFunction hashFunction;
 
+  // A salt that is added to each VID prior to computing the fingerprint.
+  // The purpose of this is to avoid accidentally using the same fingerprint
+  // that is computed by AnySketch.
+  private static final long VID_SALT = 1414214L;
+
   /**
    * Constructs a new VidSampler.
    *
@@ -53,7 +58,7 @@ public final class VidSampler {
   /** Hashes a vid to a real number in the interval [0, 1]. */
   public float hashVidToUnitInterval(long vid) {
     Hasher vidHasher = hashFunction.newHasher();
-    return maskDivisor * (float) (vidHasher.putLong(vid).hash().asInt() & Ieee754MantissaMask);
+    return maskDivisor * (float) (vidHasher.putLong(vid + VID_SALT).hash().asInt() & Ieee754MantissaMask);
   }
 
   /**
