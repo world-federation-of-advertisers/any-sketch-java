@@ -25,15 +25,33 @@ import com.google.common.hash.Hasher;
  */
 public final class VidSampler {
 
-  // The mantissa of an IEEE 754 float is 23 bits.
+  /**
+   * The mantissa of an IEEE 754 float is 23 bits.
+   */
   private static final int Ieee754MantissaMask = 0x7f_ffff;
 
-  // A divisor that is used to convert the lower 23 bits of the
-  // fingerprinted value to a floating point value between 0 and 1.
+  /**
+   * A divisor that is used to convert the lower 23 bits of the
+   * fingerprinted value to a floating point value between 0 and 1.
+   */
   private static final float maskDivisor = 1.0f / (float) Ieee754MantissaMask;
 
-  // The hash function that will be used for this VidSampler.
+  /**
+   * The hash function that will be used for this VidSampler.
+   */
   private final HashFunction hashFunction;
+
+  /**
+   * A salt that is added to each VID prior to computing the fingerprint.
+   * The purpose of this is to avoid accidentally using the same fingerprint
+   * that is computed by {@link org.wfanet.anysketch.AnySketch}.  If the same
+   * fingerprint is used by the sampler and by the sketch creation code,
+   * then the only non-zero registers in the sketch will be registers that
+   * correspond to values in the sampling interval.  Thus, cardinalities will
+   * be underestimated.  This member is private because it is a requirement
+   * that all EDPs use the same salt.
+   */
+  private static final long VID_SALT = 1414214L;
 
   /**
    * Constructs a new VidSampler.
@@ -53,7 +71,7 @@ public final class VidSampler {
   /** Hashes a vid to a real number in the interval [0, 1]. */
   public float hashVidToUnitInterval(long vid) {
     Hasher vidHasher = hashFunction.newHasher();
-    return maskDivisor * (float) (vidHasher.putLong(vid).hash().asInt() & Ieee754MantissaMask);
+    return maskDivisor * (float) (vidHasher.putLong(vid + VID_SALT).hash().asInt() & Ieee754MantissaMask);
   }
 
   /**
