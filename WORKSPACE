@@ -6,9 +6,9 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
 # Common-cpp
 http_archive(
     name = "wfa_common_cpp",
-    sha256 = "3110be93990a449ac8f60b534319d7d3a08aa118908fecd7b571a5e08260e560",
-    strip_prefix = "common-cpp-0.2.1",
-    url = "https://github.com/world-federation-of-advertisers/common-cpp/archive/v0.2.1.tar.gz",
+#    sha256 = "3110be93990a449ac8f60b534319d7d3a08aa118908fecd7b571a5e08260e560",
+    strip_prefix = "common-cpp-5f0582b17ffc60d21894aaf2a402518ebe307871",
+    url = "https://github.com/world-federation-of-advertisers/common-cpp/archive/5f0582b17ffc60d21894aaf2a402518ebe307871.tar.gz",
 )
 
 load("@wfa_common_cpp//build:common_cpp_repositories.bzl", "common_cpp_repositories")
@@ -20,14 +20,14 @@ load("@wfa_common_cpp//build:common_cpp_deps.bzl", "common_cpp_deps")
 common_cpp_deps()
 
 # gRPC
-http_archive(
-    name = "com_github_grpc_grpc",
-    sha256 = "2060769f2d4b0d3535ba594b2ab614d7f68a492f786ab94b4318788d45e3278a",
-    strip_prefix = "grpc-1.33.2",
-    urls = [
-        "https://github.com/grpc/grpc/archive/v1.33.2.tar.gz",
-    ],
-)
+#http_archive(
+#    name = "com_github_grpc_grpc",
+#    sha256 = "2060769f2d4b0d3535ba594b2ab614d7f68a492f786ab94b4318788d45e3278a",
+#    strip_prefix = "grpc-1.33.2",
+#    urls = [
+#        "https://github.com/grpc/grpc/archive/v1.33.2.tar.gz",
+#    ],
+#)
 
 load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 
@@ -80,7 +80,8 @@ wfa_repo_archive(
 
 wfa_repo_archive(
     name = "any_sketch",
-    version = "0.1.0",
+#    version = "0.1.0",
+    commit = "4f063af376f9f9d0cbbba21ab9492515c8ca155c",
     repo = "any-sketch",
-    sha256 = "904a3dd0b48bccbbd0b84830c85e47aa56fe1257211514bfad99a88595ce6325",
+    sha256 = None,
 )

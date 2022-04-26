@@ -50,7 +50,7 @@ public class SketchProtos {
           .addRegistersBuilder()
           .setIndex(register.getIndex())
           .addAllValues(encodeValuesToProto(anySketch.getValueFunctions(), register.getValues()))
-          .build();
+          .isInitialized();
     }
     return builder.build();
   }
