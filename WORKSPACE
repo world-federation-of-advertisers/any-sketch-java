@@ -39,8 +39,17 @@ load("@com_github_grpc_grpc//bazel:grpc_extra_deps.bzl", "grpc_extra_deps")
 # Loads transitive dependencies of GRPC.
 grpc_extra_deps()
 
-# Support Maven sources
+# Need to import platforms separately for @bazel_tools//tools/jdk:jni in rules_swig to select specific cpu
+http_archive(
+    name = "platforms",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+        "https://github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+    ],
+    sha256 = "379113459b0feaf6bfbb584a91874c065078aa673222846ac765f86661c27407",
+)
 
+# Support Maven sources
 http_archive(
     name = "rules_jvm_external",
     sha256 = "62133c125bf4109dfd9d2af64830208356ce4ef8b165a6ef15bbff7460b35c3a",
