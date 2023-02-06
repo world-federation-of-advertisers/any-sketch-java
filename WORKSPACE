@@ -35,11 +35,14 @@ wfa_repo_archive(
     sha256 = "34c15134d7293fc38df6ed254b55ee912c7479c396178b7f6499b7e5351aeeec",
 )
 
+# DO_NOT_SUBMIT(world-federation-of-advertisers/any-sketch#20): Replace with version once released from main.
 wfa_repo_archive(
     name = "any_sketch",
+    commit = "7aa81b53214e6d50062f279499979e9b2f3630d5",
     repo = "any-sketch",
-    sha256 = "a30369e28ae3788356b734239559f3d0c035d9121963ab00a797615364d4f0c4",
-    version = "0.3.0",
+    #    sha256 = "a30369e28ae3788356b734239559f3d0c035d9121963ab00a797615364d4f0c4",
+    sha256 = None,
+    #    version = "0.3.0",
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
