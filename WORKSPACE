@@ -6,8 +6,8 @@ load("//build/wfa:repositories.bzl", "wfa_repo_archive")
 wfa_repo_archive(
     name = "wfa_common_cpp",
     repo = "common-cpp",
-    sha256 = "60e9c808d55d14be65347cab008b8bd4f8e2dd8186141609995333bc75fc08ce",
-    version = "0.8.0",
+    sha256 = "fd4475b587741fa8af65c580b783054d09bf3890197830290a22b3823c778eeb",
+    version = "0.10.0",
 )
 
 load("@wfa_common_cpp//build:common_cpp_repositories.bzl", "common_cpp_repositories")
@@ -38,8 +38,8 @@ wfa_repo_archive(
 wfa_repo_archive(
     name = "any_sketch",
     repo = "any-sketch",
-    sha256 = "a30369e28ae3788356b734239559f3d0c035d9121963ab00a797615364d4f0c4",
-    version = "0.3.0",
+    sha256 = "dfa9eece9965b8c043e7562d0f7c6e06cd649c62d88d9be99c0295f9f5980d7b",
+    version = "0.4.3",
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
