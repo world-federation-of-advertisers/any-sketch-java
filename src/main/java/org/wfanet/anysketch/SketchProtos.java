@@ -117,8 +117,11 @@ public class SketchProtos {
         String.format("Unsupported aggregator type '%s'", aggregator));
   }
 
-  private static Fingerprinter makeFingerprinter(String name) {
-    return new SaltedFingerprinter(name, new FarmFingerprinter());
+  private static Fingerprinter makeFingerprinter(String name, String salt) {
+    if (salt.isEmpty()) {
+      return new SaltedFingerprinter(name, new FarmFingerprinter());
+    }
+    return new FarmFingerprinter(salt);
   }
 
   private static org.wfanet.anysketch.distributions.Distribution makeDistribution(
@@ -127,17 +130,17 @@ public class SketchProtos {
       case EXPONENTIAL:
         ExponentialDistribution exponential = distribution.getExponential();
         return Distributions.exponential(
-            makeFingerprinter(name), exponential.getRate(), exponential.getNumValues());
+            makeFingerprinter(name, exponential.getSalt()), exponential.getRate(), exponential.getNumValues());
       case UNIFORM:
         UniformDistribution uniform = distribution.getUniform();
-        return Distributions.uniform(makeFingerprinter(name), 0L, uniform.getNumValues() - 1L);
+        return Distributions.uniform(makeFingerprinter(name, uniform.getSalt()), 0L, uniform.getNumValues() - 1L);
       case ORACLE:
         // TODO: enrich proto to support min and max values
         OracleDistribution oracle = distribution.getOracle();
         return Distributions.oracle(oracle.getKey(), Long.MIN_VALUE, Long.MAX_VALUE);
       case GEOMETRIC:
         GeometricDistribution geometric = distribution.getGeometric();
-        return Distributions.geometric(makeFingerprinter(name), 0, geometric.getNumValues() - 1);
+        return Distributions.geometric(makeFingerprinter(name, geometric.getSalt()), 0, geometric.getNumValues() - 1);
       case CONSTANT:
       case DIRAC_MIXTURE:
       case VERBATIM:

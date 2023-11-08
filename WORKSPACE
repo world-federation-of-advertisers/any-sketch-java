@@ -35,11 +35,12 @@ wfa_repo_archive(
     sha256 = "34c15134d7293fc38df6ed254b55ee912c7479c396178b7f6499b7e5351aeeec",
 )
 
+# DO_NOT_SUBMIT: Update version.
 wfa_repo_archive(
     name = "any_sketch",
+    commit = "dd1b695704243a23ae932a34b318b6c6006bef19",
     repo = "any-sketch",
-    sha256 = "dfa9eece9965b8c043e7562d0f7c6e06cd649c62d88d9be99c0295f9f5980d7b",
-    version = "0.4.3",
+    sha256 = "279777bcfd73fa2b753e18cc1d53e0ee4e11b2aacc88a6a35ee39ca9f95b9d13",
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
