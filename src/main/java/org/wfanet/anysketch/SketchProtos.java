@@ -118,6 +118,9 @@ public class SketchProtos {
   }
 
   private static Fingerprinter makeFingerprinter(String name, String salt) {
+    // This is for backward compatibility. When customized salt is not specified, use previous
+    // `SaltedFingerprinter` to keep the consistent behavior.
+    // TODO(@renjiez): Remove class `SaltedFingerprinter` when customized salt is widely adopted.
     if (salt.isEmpty()) {
       return new SaltedFingerprinter(name, new FarmFingerprinter());
     }
