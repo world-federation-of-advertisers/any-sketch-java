@@ -29,7 +29,9 @@ import org.wfanet.anysketch.fingerprinters.FarmFingerprinter;
 import org.wfanet.anysketch.fingerprinters.Fingerprinter;
 import org.wfanet.anysketch.fingerprinters.SaltedFingerprinter;
 
-/** Utilities for converting between {@link AnySketch} object and {@link Sketch} protos. */
+/**
+ * Utilities for converting between {@link AnySketch} object and {@link Sketch} protos.
+ */
 @SuppressWarnings("UnstableApiUsage") // For toImmutableList and Streams.zip
 public class SketchProtos {
 
@@ -117,13 +119,14 @@ public class SketchProtos {
         String.format("Unsupported aggregator type '%s'", aggregator));
   }
 
-  private static Fingerprinter makeFingerprinter(String name, String salt) {
-    // This is for backward compatibility. When customized salt is not specified, use previous
-    // `SaltedFingerprinter` to keep the consistent behavior.
-    // TODO(@renjiez): Remove class `SaltedFingerprinter` when customized salt is widely adopted.
-    if (salt.isEmpty()) {
-      return new SaltedFingerprinter(name, new FarmFingerprinter());
-    }
+  // This is for backward compatibility. When customized salt is not specified, use previous
+  // `SaltedFingerprinter` as default to keep the consistent behavior.
+  // TODO(@renjiez): Remove class `SaltedFingerprinter` when customized salt is widely adopted.
+  private static Fingerprinter makeFingerprinter(String name) {
+    return new SaltedFingerprinter(name, new FarmFingerprinter());
+  }
+
+  private static Fingerprinter makeSaltedFingerprinter(String salt) {
     return new FarmFingerprinter(salt);
   }
 
@@ -133,17 +136,23 @@ public class SketchProtos {
       case EXPONENTIAL:
         ExponentialDistribution exponential = distribution.getExponential();
         return Distributions.exponential(
-            makeFingerprinter(name, exponential.getSalt()), exponential.getRate(), exponential.getNumValues());
+            exponential.hasSalt() ? makeSaltedFingerprinter(exponential.getSalt())
+                : makeFingerprinter(name),
+            exponential.getRate(),
+            exponential.getNumValues());
       case UNIFORM:
         UniformDistribution uniform = distribution.getUniform();
-        return Distributions.uniform(makeFingerprinter(name, uniform.getSalt()), 0L, uniform.getNumValues() - 1L);
+        return Distributions.uniform(uniform.hasSalt() ? makeSaltedFingerprinter(uniform.getSalt())
+            : makeFingerprinter(name), 0L, uniform.getNumValues() - 1L);
       case ORACLE:
         // TODO: enrich proto to support min and max values
         OracleDistribution oracle = distribution.getOracle();
         return Distributions.oracle(oracle.getKey(), Long.MIN_VALUE, Long.MAX_VALUE);
       case GEOMETRIC:
         GeometricDistribution geometric = distribution.getGeometric();
-        return Distributions.geometric(makeFingerprinter(name, geometric.getSalt()), 0, geometric.getNumValues() - 1);
+        return Distributions.geometric(
+            geometric.hasSalt() ? makeSaltedFingerprinter(geometric.getSalt())
+                : makeFingerprinter(name), 0, geometric.getNumValues() - 1);
       case CONSTANT:
       case DIRAC_MIXTURE:
       case VERBATIM:
