@@ -119,9 +119,11 @@ public class SketchProtos {
         String.format("Unsupported aggregator type '%s'", aggregator));
   }
 
-  // This is for backward compatibility. When customized salt is not specified, use previous
-  // `SaltedFingerprinter` as default to keep the consistent behavior.
-  // TODO(@renjiez): Remove class `SaltedFingerprinter` when customized salt is widely adopted.
+  /**
+   * This is for backward compatibility. When customized salt is not specified, use previous
+   * `SaltedFingerprinter` as default to keep the consistent behavior.
+   * TODO(@renjiez): Remove class `SaltedFingerprinter` when customized salt is widely adopted.
+   */
   private static Fingerprinter makeFingerprinter(String name) {
     return new SaltedFingerprinter(name, new FarmFingerprinter());
   }
