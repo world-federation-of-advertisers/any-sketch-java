@@ -23,7 +23,10 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class FarmFingerprinterTest {
+  static final String SALT = "salt";
+
   private final FarmFingerprinter fingerprinter = new FarmFingerprinter();
+  private final FarmFingerprinter saltedFingerprinter = new FarmFingerprinter(SALT);
 
   @Test
   public void testFingerPrintWithNullValueFails() {
@@ -35,6 +38,8 @@ public class FarmFingerprinterTest {
     String x = "Foo";
     String y = "Foo";
     assertThat(fingerprinter.fingerprint(x)).isEqualTo(fingerprinter.fingerprint(y));
+    assertThat(saltedFingerprinter.fingerprint(x)).isEqualTo(saltedFingerprinter.fingerprint(y));
+
   }
 
   @Test
@@ -42,5 +47,20 @@ public class FarmFingerprinterTest {
     String x = "Foo";
     String y = "Bar";
     assertThat(fingerprinter.fingerprint(x)).isNotEqualTo(fingerprinter.fingerprint(y));
+    assertThat(saltedFingerprinter.fingerprint(x)).isNotEqualTo(saltedFingerprinter.fingerprint(y));
+  }
+
+  @Test
+  public void testHashResultsMatchesExpected() {
+    // These hard-coded inputs and outputs should match unit test in repo `common-cpp`.
+    assertThat(fingerprinter.fingerprint("")).isEqualTo(Long.parseUnsignedLong("9ae16a3b2f90404f", 16));
+    assertThat(fingerprinter.fingerprint("0")).isEqualTo(Long.parseUnsignedLong("D2ED96073B81823F", 16));
+    assertThat(fingerprinter.fingerprint("12345")).isEqualTo(Long.parseUnsignedLong("E5B08D15925EBCF8", 16));
+    assertThat(fingerprinter.fingerprint("vid")).isEqualTo(Long.parseUnsignedLong("43A6944721C22C7", 16));
+
+    assertThat(saltedFingerprinter.fingerprint("")).isEqualTo(Long.parseUnsignedLong("3CAC4A31FEFB230B", 16));
+    assertThat(saltedFingerprinter.fingerprint("0")).isEqualTo(Long.parseUnsignedLong("7A7B4D2365940F86", 16));
+    assertThat(saltedFingerprinter.fingerprint("12345")).isEqualTo(Long.parseUnsignedLong("C61B65CC6C2C1E16", 16));
+    assertThat(saltedFingerprinter.fingerprint("vid")).isEqualTo(Long.parseUnsignedLong("C3C55DC055B07504", 16));
   }
 }

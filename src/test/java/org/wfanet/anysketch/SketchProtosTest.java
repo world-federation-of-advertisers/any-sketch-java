@@ -149,6 +149,54 @@ public class SketchProtosTest {
         .isEqualTo(sketch1);
   }
 
+  @Test
+  public void roundTrip_saltedLiquidLegions() throws IOException {
+    SketchConfig config = readSketchConfigTextproto("salted_liquid_legions");
+
+    Consumer<AnySketch> insertSomeItems =
+        (anySketch) -> {
+          anySketch.insert("person one", ImmutableMap.of("frequency", 1L));
+          anySketch.insert("persona dos", ImmutableMap.of("frequency", 2L));
+          anySketch.insert("personne trois", ImmutableMap.of("frequency", 3L));
+          anySketch.insert("qof afar", ImmutableMap.of("frequency", 4L));
+        };
+
+    AnySketch anySketch1 = SketchProtos.toAnySketch(config);
+    insertSomeItems.accept(anySketch1);
+
+    Sketch sketch1 = SketchProtos.fromAnySketch(anySketch1, config);
+    AnySketch anySketch2 = SketchProtos.toAnySketch(sketch1);
+    Sketch sketch2 = SketchProtos.fromAnySketch(anySketch2, config);
+
+    assertThat(sketch1)
+        .ignoringRepeatedFieldOrderOfFields(Sketch.REGISTERS_FIELD_NUMBER)
+        .isEqualTo(sketch2);
+
+    AnySketch anySketch3 =
+        new AnySketch(
+            ImmutableList.of(
+                Distributions.exponential(
+                    new FarmFingerprinter("salt"), 23.0, 330_000L)),
+            ImmutableList.of(
+                new ValueFunction(
+                    "SamplingIndicator",
+                    Aggregators.unique(),
+                    Distributions.uniform(
+                        new SaltedFingerprinter("SamplingIndicator", new FarmFingerprinter()),
+                        0L,
+                        9_999_999L)),
+                new ValueFunction(
+                    "Frequency",
+                    Aggregators.sum(),
+                    Distributions.oracle("frequency", Long.MIN_VALUE, Long.MAX_VALUE))));
+    insertSomeItems.accept(anySketch3);
+
+    Sketch sketch3 = SketchProtos.fromAnySketch(anySketch3, config);
+    assertThat(sketch3)
+        .ignoringRepeatedFieldOrderOfFields(Sketch.REGISTERS_FIELD_NUMBER)
+        .isEqualTo(sketch1);
+  }
+
   private static Register makeRegister(long index, Long... values) {
     return Register.newBuilder().setIndex(index).addAllValues(Arrays.asList(values)).build();
   }

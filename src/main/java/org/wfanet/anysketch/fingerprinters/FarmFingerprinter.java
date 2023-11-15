@@ -24,9 +24,21 @@ import java.nio.charset.StandardCharsets;
  */
 @SuppressWarnings("UnstableApiUsage") // For Hashing
 public class FarmFingerprinter implements Fingerprinter {
+  private final String salt;
+
+  public FarmFingerprinter() {
+    salt = "";
+  }
+
+  public FarmFingerprinter(String salt) {
+    this.salt = salt;
+  }
 
   @Override
   public long fingerprint(String item) {
+    if (!salt.isEmpty()) {
+      item += salt;
+    }
     return Hashing.farmHashFingerprint64().hashString(item, StandardCharsets.UTF_8).asLong();
   }
 }

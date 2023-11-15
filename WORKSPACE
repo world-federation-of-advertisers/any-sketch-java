@@ -38,8 +38,8 @@ wfa_repo_archive(
 wfa_repo_archive(
     name = "any_sketch",
     repo = "any-sketch",
-    sha256 = "dfa9eece9965b8c043e7562d0f7c6e06cd649c62d88d9be99c0295f9f5980d7b",
-    version = "0.4.3",
+    sha256 = "af0fbfaff61e6c26713406dca1329754d69aa985b5f7bc38ae474f71f374d9da",
+    version = "0.4.4",
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
