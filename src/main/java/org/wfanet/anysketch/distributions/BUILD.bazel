@@ -6,7 +6,7 @@ java_library(
     name = "distributions",
     srcs = glob(["*.java"]),
     deps = [
-        "@maven//:com_google_guava_guava",
-        "//src/main/java/org/wfanet/anysketch/fingerprinters"
+        "//imports/com/google/common:guava",
+        "//src/main/java/org/wfanet/anysketch/fingerprinters",
     ],
 )

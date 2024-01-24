@@ -1,0 +1,54 @@
+module(
+    name = "any-sketch-java",
+    repo_name = "any_sketch_java",
+)
+
+TRUTH_VERSION = "1.1.2"
+
+# Bazel Central Registry deps.
+bazel_dep(
+    name = "rules_java",
+    version = "7.2.0",
+)
+bazel_dep(
+    name = "protobuf",
+    version = "21.7",
+    repo_name = "com_google_protobuf",
+)
+bazel_dep(
+    name = "rules_jvm_external",
+    version = "5.3",
+)
+
+# WFA registry deps.
+bazel_dep(
+    name = "rules_swig",
+    version = "0.1.0",
+    repo_name = "wfa_rules_swig",
+)
+bazel_dep(
+    name = "any-sketch",
+    version = "0.6.0",
+    repo_name = "any_sketch",
+)
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        "com.google.guava:guava:33.0.0-jre",
+        "com.google.truth:truth:" + TRUTH_VERSION,
+        "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERSION,
+        "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERSION,
+        "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERSION,
+        "junit:junit:4.13.2",
+    ],
+    fetch_sources = True,  # For IDE support.
+    strict_visibility = True,
+)
+use_repo(maven, "maven")
+
+# Force a newer version of boringssl than the transitive grpc dep.
+single_version_override(
+    module_name = "boringssl",
+    version = "0.0.0-20230215-5c22014",
+)

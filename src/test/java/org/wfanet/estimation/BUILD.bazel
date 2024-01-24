@@ -7,8 +7,8 @@ java_test(
     ],
     test_class = "org.wfanet.estimation.EstimatorsTest",
     deps = [
+        "//imports/com/google/common/truth",
         "//src/main/java/org/wfanet/estimation:estimators",
-        "@maven//:com_google_truth_truth",
     ],
 )
 
@@ -22,12 +22,13 @@ java_test(
     ],
     test_class = "org.wfanet.estimation.ValueHistogramTest",
     deps = [
+        "//imports/com/google/common:guava",
+        "//imports/com/google/common/truth",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch",
         "//src/main/java/org/wfanet/anysketch:sketch_proto_converter",
         "//src/main/java/org/wfanet/estimation:value_histogram",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
         "@com_google_protobuf//:protobuf_java",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )

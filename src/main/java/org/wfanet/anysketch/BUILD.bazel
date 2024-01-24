@@ -9,10 +9,10 @@ java_library(
         "ValueFunction.java",
     ],
     deps = [
+        "//imports/com/google/common:guava",
         "//src/main/java/org/wfanet/anysketch/aggregators",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
-        "@maven//:com_google_guava_guava",
     ],
 )
 
@@ -27,10 +27,10 @@ java_library(
     ],
     deps = [
         ":anysketch",
+        "//imports/com/google/common:guava",
         "//src/main/java/org/wfanet/anysketch/aggregators",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
-        "@maven//:com_google_guava_guava",
     ],
 )

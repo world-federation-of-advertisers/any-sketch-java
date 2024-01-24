@@ -19,7 +19,7 @@ java_library(
         "ValueHistogram.java",
     ],
     deps = [
+        "//imports/com/google/common:guava",
         "//src/main/java/org/wfanet/anysketch",
-        "@maven//:com_google_guava_guava",
     ],
 )
