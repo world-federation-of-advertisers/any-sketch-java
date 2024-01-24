@@ -7,11 +7,11 @@ java_test(
     ],
     test_class = "org.wfanet.anysketch.crypto.SketchJavaEncrypterTest",
     deps = [
+        "//imports/com/google/common/truth",
         "//src/main/java/org/wfanet/anysketch/crypto:sketch_encrypter_adapter",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
         "//src/main/proto/wfa/any_sketch/crypto:el_gamal_key_java_proto",
         "//src/main/proto/wfa/any_sketch/crypto:sketch_encryption_methods_java_proto",
         "@com_google_protobuf//:protobuf_java",
-        "@maven//:com_google_truth_truth",
     ],
 )

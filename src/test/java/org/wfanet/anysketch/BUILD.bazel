@@ -5,12 +5,13 @@ java_test(
     srcs = ["AnySketchTest.java"],
     test_class = "org.wfanet.anysketch.AnySketchTest",
     deps = [
+        "//imports/com/google/common:guava",
+        "//imports/com/google/common/truth",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch",
         "//src/main/java/org/wfanet/anysketch/aggregators",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )
 
@@ -22,6 +23,10 @@ java_test(
     ],
     test_class = "org.wfanet.anysketch.SketchProtosTest",
     deps = [
+        "//imports/com/google/common:guava",
+        "//imports/com/google/common/truth",
+        "//imports/com/google/common/truth/extensions/proto",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch",
         "//src/main/java/org/wfanet/anysketch:sketch_proto_converter",
         "//src/main/java/org/wfanet/anysketch/aggregators",
@@ -29,10 +34,6 @@ java_test(
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
         "@com_google_protobuf//:protobuf_java",
-        "@maven//:com_google_truth_extensions_truth_liteproto_extension",
-        "@maven//:com_google_truth_extensions_truth_proto_extension",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )
 
@@ -44,6 +45,10 @@ java_test(
     ],
     test_class = "org.wfanet.anysketch.SketchSqlTest",
     deps = [
+        "//imports/com/google/common:guava",
+        "//imports/com/google/common/truth",
+        "//imports/com/google/common/truth/extensions/proto",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch",
         "//src/main/java/org/wfanet/anysketch:sketch_proto_converter",
         "//src/main/java/org/wfanet/anysketch/aggregators",
@@ -51,9 +56,5 @@ java_test(
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
         "@com_google_protobuf//:protobuf_java",
-        "@maven//:com_google_truth_extensions_truth_liteproto_extension",
-        "@maven//:com_google_truth_extensions_truth_proto_extension",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )

@@ -5,8 +5,8 @@ java_test(
     srcs = ["UniqueAggregatorTest.java"],
     test_class = "org.wfanet.anysketch.aggregators.UniqueAggregatorTest",
     deps = [
+        "//imports/com/google/common/truth",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch/aggregators",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )

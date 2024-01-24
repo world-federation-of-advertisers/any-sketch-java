@@ -5,10 +5,11 @@ java_test(
     srcs = ["ExponentialDistributionTest.java"],
     test_class = "org.wfanet.anysketch.distributions.ExponentialDistributionTest",
     deps = [
+        "//imports/com/google/common:guava",
+        "//imports/com/google/common/truth",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )
 
@@ -17,10 +18,11 @@ java_test(
     srcs = ["GeometricDistributionTest.java"],
     test_class = "org.wfanet.anysketch.distributions.GeometricDistributionTest",
     deps = [
+        "//imports/com/google/common:guava",
+        "//imports/com/google/common/truth",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )
 
@@ -29,9 +31,10 @@ java_test(
     srcs = ["OracleDistributionTest.java"],
     test_class = "org.wfanet.anysketch.distributions.OracleDistributionTest",
     deps = [
+        "//imports/com/google/common:guava",
+        "//imports/com/google/common/truth",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch/distributions",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )
 
@@ -40,9 +43,9 @@ java_test(
     srcs = ["UniformDistributionTest.java"],
     test_class = "org.wfanet.anysketch.distributions.UniformDistributionTest",
     deps = [
+        "//imports/com/google/common/truth",
+        "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
-        "@maven//:com_google_truth_truth",
-        "@maven//:junit_junit",
     ],
 )
