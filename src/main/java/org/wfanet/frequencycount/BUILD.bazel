@@ -1,0 +1,14 @@
+load("@rules_java//java:defs.bzl", "java_library")
+load("@wfa_rules_swig//java:defs.bzl", "java_wrap_cc")
+
+package(default_visibility = ["//visibility:public"])
+
+java_wrap_cc(
+    name = "secret_share_generator_adapter",
+    src = "secret_share_generator.swig",
+    module = "SecretShareGeneratorAdapter",
+    package = "org.wfanet.frequencycount",
+    deps = [
+        "@any_sketch//src/main/cc/frequency_count:secret_share_generator_adapter",
+    ],
+)
