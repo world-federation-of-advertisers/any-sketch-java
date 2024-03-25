@@ -3,11 +3,21 @@ load("@rules_java//java:defs.bzl", "java_proto_library")
 package(default_visibility = ["//visibility:public"])
 
 java_proto_library(
-    name = "sketch_java_proto",
-    deps = ["@any_sketch//src/main/proto/wfa/any_sketch:sketch_proto"],
+    name = "measurement_spec_java_proto",
+    deps = ["@cross_media_measurement_api//src/main/proto/wfa/measurement/api/v2alpha:measurement_spec_proto"],
 )
 
 java_proto_library(
     name = "noise_parameters_java_proto",
     deps = ["@any_sketch//src/main/proto/wfa/any_sketch:differential_privacy_proto"],
+)
+
+java_proto_library(
+    name = "population_spec_java_proto",
+    deps = ["@cross_media_measurement_api//src/main/proto/wfa/measurement/api/v2alpha:population_spec_proto"],
+)
+
+java_proto_library(
+    name = "sketch_java_proto",
+    deps = ["@any_sketch//src/main/proto/wfa/any_sketch:sketch_proto"],
 )

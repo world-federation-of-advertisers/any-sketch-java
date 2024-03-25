@@ -31,6 +31,18 @@ bazel_dep(
     version = "0.6.0",
     repo_name = "any_sketch",
 )
+bazel_dep(
+    name = "cross-media-measurement-api",
+    version = "8c9600750944b38f33c9d0224c7038fafda4e218",
+    repo_name = "cross_media_measurement_api",
+)
+# TODO(kungfucraig): DO NOT SUBMIT
+git_override(
+    module_name = "cross-media-measurement-api",
+    remote="https://github.com/world-federation-of-advertisers/cross-media-measurement-api.git",
+    commit = "8c9600750944b38f33c9d0224c7038fafda4e218"
+)
+
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(

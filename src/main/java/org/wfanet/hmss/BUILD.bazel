@@ -1,0 +1,15 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "hmss",
+    srcs = [
+        "FrequencyVectorBuilder.java",
+        "VidIndex.java",
+    ],
+    deps = [
+        "//src/main/proto/wfa/any_sketch:measurement_spec_java_proto",
+        "//src/main/proto/wfa/any_sketch:population_spec_java_proto",
+    ],
+)
