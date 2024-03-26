@@ -61,4 +61,7 @@
   return $jnicall;
 }
 
+// Follow Java style for function names.
+%rename("%(lowercamelcase)s",%$isfunction) "";
+
 %include "frequency_count/secret_share_generator_adapter.h"

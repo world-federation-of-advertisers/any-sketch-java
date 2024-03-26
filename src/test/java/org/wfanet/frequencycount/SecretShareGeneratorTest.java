@@ -34,19 +34,19 @@ public class SecretShareGeneratorTest {
   private static final int AES_IV_LENGTH_IN_BYTES = 16;
 
   @Test
-  public void SecretShareGenerator_emptyFrequencyVectorShouldThrow() {
+  public void generateSecretShares_throws_whenFrequencyVectorEmpty() {
     SecretShareGeneratorRequest request = SecretShareGeneratorRequest.newBuilder()
         .setRingModulus(128).build();
 
     RuntimeException exception =
         assertThrows(
             RuntimeException.class,
-            () -> SecretShareGeneratorAdapter.SecretShareFrequencyVector(request.toByteArray()));
+            () -> SecretShareGeneratorAdapter.secretShareFrequencyVector(request.toByteArray()));
     assertThat(exception).hasMessageThat().contains("Input");
   }
 
   @Test
-  public void SecretShareGenerator_invalidRingModulusShouldThrow() {
+  public void generateSecretShares_throws_whenRingModulusIsInvalid() {
     SecretShareGeneratorRequest request = SecretShareGeneratorRequest.newBuilder()
         .addData(1).addData(2).addData(3).addData(4).addData(5)
         .setRingModulus(1).build();
@@ -54,18 +54,19 @@ public class SecretShareGeneratorTest {
     RuntimeException exception =
         assertThrows(
             RuntimeException.class,
-            () -> SecretShareGeneratorAdapter.SecretShareFrequencyVector(request.toByteArray()));
+            () -> SecretShareGeneratorAdapter.secretShareFrequencyVector(request.toByteArray()));
     assertThat(exception).hasMessageThat().contains("modulus");
   }
 
   @Test
-  public void SecretShareGenerator_validSecretShareGeneratorRequest() throws Exception {
+  public void generateSecretShares_succeeds_whenSecretShareGeneratorRequestIsValid()
+      throws Exception {
     SecretShareGeneratorRequest request = SecretShareGeneratorRequest.newBuilder()
         .addData(1).addData(2).addData(3).addData(4).addData(5)
         .setRingModulus(128).build();
 
     SecretShare secretShare = SecretShare.parseFrom(
-        SecretShareGeneratorAdapter.SecretShareFrequencyVector(request.toByteArray()));
+        SecretShareGeneratorAdapter.secretShareFrequencyVector(request.toByteArray()));
 
     System.out.println(secretShare.getShareVectorCount());
     assertThat(secretShare.getShareVectorCount()).isEqualTo(5);
