@@ -41,7 +41,7 @@ public class SecretShareGeneratorTest {
     RuntimeException exception =
         assertThrows(
             RuntimeException.class,
-            () -> SecretShareGeneratorAdapter.secretShareFrequencyVector(request.toByteArray()));
+            () -> SecretShareGeneratorAdapter.generateSecretShares(request.toByteArray()));
     assertThat(exception).hasMessageThat().contains("Input");
   }
 
@@ -54,7 +54,7 @@ public class SecretShareGeneratorTest {
     RuntimeException exception =
         assertThrows(
             RuntimeException.class,
-            () -> SecretShareGeneratorAdapter.secretShareFrequencyVector(request.toByteArray()));
+            () -> SecretShareGeneratorAdapter.generateSecretShares(request.toByteArray()));
     assertThat(exception).hasMessageThat().contains("modulus");
   }
 
@@ -66,7 +66,7 @@ public class SecretShareGeneratorTest {
         .setRingModulus(128).build();
 
     SecretShare secretShare = SecretShare.parseFrom(
-        SecretShareGeneratorAdapter.secretShareFrequencyVector(request.toByteArray()));
+        SecretShareGeneratorAdapter.generateSecretShares(request.toByteArray()));
 
     System.out.println(secretShare.getShareVectorCount());
     assertThat(secretShare.getShareVectorCount()).isEqualTo(5);
