@@ -1,0 +1,15 @@
+load("@rules_java//java:defs.bzl", "java_proto_library")
+
+package(default_visibility = ["//visibility:public"])
+
+java_proto_library(
+    name = "secret_share_methods_java_proto",
+    deps = [
+        "@any_sketch//src/main/proto/wfa/frequency_count:secret_share_methods_proto",
+    ],
+)
+
+java_proto_library(
+    name = "secret_share_java_proto",
+    deps = ["@any_sketch//src/main/proto/wfa/frequency_count:secret_share_proto"],
+)
