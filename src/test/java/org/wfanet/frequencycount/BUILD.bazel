@@ -1,0 +1,16 @@
+load("@rules_java//java:defs.bzl", "java_test")
+
+java_test(
+    name = "tests",
+    srcs = [
+        "SecretShareGeneratorTest.java",
+    ],
+    test_class = "org.wfanet.frequencycount.SecretShareGeneratorTest",
+    deps = [
+        "//imports/com/google/common/truth",
+        "//src/main/java/org/wfanet/frequencycount:secret_share_generator_adapter",
+        "//src/main/proto/wfa/frequency_count:secret_share_java_proto",
+        "//src/main/proto/wfa/frequency_count:secret_share_methods_java_proto",
+        "@com_google_protobuf//:protobuf_java",
+    ],
+)
