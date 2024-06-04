@@ -9,5 +9,6 @@ java_wrap_cc(
     package = "org.wfanet.frequencycount",
     deps = [
         "@any_sketch//src/main/cc/frequency_count:secret_share_generator_adapter",
+        "@wfa_rules_swig//include:typemaps"
     ],
 )
