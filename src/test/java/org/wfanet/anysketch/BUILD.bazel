@@ -26,6 +26,7 @@ java_test(
         "//imports/com/google/common:guava",
         "//imports/com/google/common/truth",
         "//imports/com/google/common/truth/extensions/proto",
+        "//imports/com/google/protobuf",
         "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch",
         "//src/main/java/org/wfanet/anysketch:sketch_proto_converter",
@@ -33,7 +34,6 @@ java_test(
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
-        "@com_google_protobuf//:protobuf_java",
     ],
 )
 
@@ -48,6 +48,7 @@ java_test(
         "//imports/com/google/common:guava",
         "//imports/com/google/common/truth",
         "//imports/com/google/common/truth/extensions/proto",
+        "//imports/com/google/protobuf",
         "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch",
         "//src/main/java/org/wfanet/anysketch:sketch_proto_converter",
@@ -55,6 +56,5 @@ java_test(
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
-        "@com_google_protobuf//:protobuf_java",
     ],
 )
