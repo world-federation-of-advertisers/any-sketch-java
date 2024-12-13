@@ -3,21 +3,21 @@ module(
     repo_name = "any_sketch_java",
 )
 
-TRUTH_VERSION = "1.1.2"
+TRUTH_VERSION = "1.4.4"
 
 # Bazel Central Registry deps.
 bazel_dep(
     name = "rules_java",
-    version = "7.2.0",
+    version = "8.6.2",
 )
 bazel_dep(
     name = "protobuf",
-    version = "21.7",
+    version = "27.3",
     repo_name = "com_google_protobuf",
 )
 bazel_dep(
     name = "rules_jvm_external",
-    version = "5.3",
+    version = "6.6",
 )
 
 # WFA registry deps.
@@ -28,21 +28,49 @@ bazel_dep(
 )
 bazel_dep(
     name = "any-sketch",
-    version = "0.8.1",
+    version = "0.10.0",
     repo_name = "any_sketch",
 )
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.artifact(
+    testonly = True,
+    artifact = "truth",
+    group = "com.google.truth",
+    version = TRUTH_VERSION,
+)
+maven.artifact(
+    testonly = True,
+    artifact = "truth-java8-extension",
+    group = "com.google.truth.extensions",
+    version = TRUTH_VERSION,
+)
+maven.artifact(
+    testonly = True,
+    artifact = "truth-proto-extension",
+    group = "com.google.truth.extensions",
+    version = TRUTH_VERSION,
+)
+maven.artifact(
+    testonly = True,
+    artifact = "truth-liteproto-extension",
+    group = "com.google.truth.extensions",
+    version = TRUTH_VERSION,
+)
 maven.install(
     artifacts = [
-        "com.google.guava:guava:33.0.0-jre",
-        "com.google.truth:truth:" + TRUTH_VERSION,
-        "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERSION,
-        "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERSION,
-        "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERSION,
+        "com.google.guava:guava:33.3.1-jre",
         "junit:junit:4.13.2",
+        "com.google.protobuf:protobuf-java",
     ],
+    boms = [
+        # Must be compatible with protobuf version.
+        "com.google.protobuf:protobuf-bom:4.27.5",
+    ],
+    fail_if_repin_required = True,
     fetch_sources = True,  # For IDE support.
+    lock_file = "//:maven_install.json",
+    resolver = "maven",
     strict_visibility = True,
 )
 use_repo(maven, "maven")
@@ -52,4 +80,3 @@ single_version_override(
     module_name = "boringssl",
     version = "0.0.0-20230215-5c22014",
 )
-

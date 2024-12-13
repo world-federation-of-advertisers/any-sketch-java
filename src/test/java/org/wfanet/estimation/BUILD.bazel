@@ -24,11 +24,11 @@ java_test(
     deps = [
         "//imports/com/google/common:guava",
         "//imports/com/google/common/truth",
+        "//imports/com/google/protobuf",
         "//imports/org/junit",
         "//src/main/java/org/wfanet/anysketch",
         "//src/main/java/org/wfanet/anysketch:sketch_proto_converter",
         "//src/main/java/org/wfanet/estimation:value_histogram",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
-        "@com_google_protobuf//:protobuf_java",
     ],
 )
