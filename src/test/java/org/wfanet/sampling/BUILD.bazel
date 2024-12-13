@@ -5,7 +5,7 @@ java_test(
     srcs = [
         "VidSamplerTest.java",
     ],
-    test_class = "org.wfanet.estimation.VidSamplerTest",
+    test_class = "org.wfanet.sampling.VidSamplerTest",
     deps = [
         "//imports/com/google/common:guava",
         "//imports/com/google/common/truth",

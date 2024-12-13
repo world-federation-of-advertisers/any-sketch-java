@@ -22,10 +22,16 @@ on:
     types: [opened, synchronize, edited]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-test:
     name: Build and test
     runs-on: ubuntu-20.04
+    env:
+      NATIVE_LIBRARIES_PATH: ${{ github.workspace }}/native-libraries
     steps:
     - name: Check out revision
       uses: actions/checkout@v4
@@ -53,3 +59,14 @@ jobs:
       continue-on-error: true
       uses: world-federation-of-advertisers/actions/bazel-upload-testlogs@v2
       if: failure() && (steps.run-tests.outcome == 'failure')
+
+    - name: Copy native libraries
+      run: |
+        mkdir -p "$NATIVE_LIBRARIES_PATH"
+        bazel cquery "kind('^cc_binary', //src/main/...)" --output=files | xargs -I{} cp {} "$NATIVE_LIBRARIES_PATH/" 
+
+    - name: Upload native libraries
+      uses: actions/upload-artifact@v4
+      with:
+        name: native-libraries
+        path: ${{ env.NATIVE_LIBRARIES_PATH }}
