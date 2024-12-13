@@ -1,13 +1,11 @@
 load("@com_google_protobuf//bazel:java_proto_library.bzl", "java_proto_library")
 
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = [
+    "//src/main/java/org/wfanet/anysketch:__subpackages__",
+    "//src/test/java/org/wfanet/anysketch:__subpackages__",
+])
 
 java_proto_library(
     name = "sketch_java_proto",
     deps = ["@any_sketch//src/main/proto/wfa/any_sketch:sketch_proto"],
-)
-
-java_proto_library(
-    name = "noise_parameters_java_proto",
-    deps = ["@any_sketch//src/main/proto/wfa/any_sketch:differential_privacy_proto"],
 )
