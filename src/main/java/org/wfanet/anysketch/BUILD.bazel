@@ -1,36 +1,81 @@
 load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_jvm_external//:defs.bzl", "maven_export")
+load("//build/maven:defs.bzl", "artifact_version")
 
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//src/test/java/org/wfanet/anysketch:__pkg__"])
+
+MAVEN_COORDINATES = "org.wfanet.measurement.anysketch:any-sketch:" + artifact_version()
 
 java_library(
-    name = "anysketch",
-    srcs = [
-        "AnySketch.java",
-        "ValueFunction.java",
-    ],
+    name = "value_function",
+    srcs = ["ValueFunction.java"],
     deps = [
-        "//imports/com/google/common:guava",
         "//src/main/java/org/wfanet/anysketch/aggregators",
         "//src/main/java/org/wfanet/anysketch/distributions",
-        "//src/main/java/org/wfanet/anysketch/fingerprinters",
     ],
 )
 
 java_library(
-    name = "sketch_proto_converter",
-    srcs = [
-        "SketchProtos.java",
-        "SketchSql.java",
-    ],
-    resources = [
-        "//src/main/java/org/wfanet/anysketch/sql",
-    ],
+    name = "any_sketch",
+    srcs = ["AnySketch.java"],
     deps = [
-        ":anysketch",
+        ":value_function",
+        "//imports/com/google/common:guava",
+        "//src/main/java/org/wfanet/anysketch/distributions",
+    ],
+)
+
+java_library(
+    name = "sketch_protos",
+    srcs = ["SketchProtos.java"],
+    deps = [
+        ":any_sketch",
+        ":value_function",
         "//imports/com/google/common:guava",
         "//src/main/java/org/wfanet/anysketch/aggregators",
         "//src/main/java/org/wfanet/anysketch/distributions",
         "//src/main/java/org/wfanet/anysketch/fingerprinters",
         "//src/main/proto/wfa/any_sketch:sketch_java_proto",
+    ],
+)
+
+java_library(
+    name = "sketch_sql",
+    srcs = ["SketchSql.java"],
+    resources = [
+        "//src/main/java/org/wfanet/anysketch/sql",
+    ],
+    deps = [
+        "//imports/com/google/common:guava",
+        "//src/main/java/org/wfanet/anysketch/distributions",
+        "//src/main/proto/wfa/any_sketch:sketch_java_proto",
+    ],
+)
+
+java_library(
+    name = "anysketch",
+    tags = ["maven_coordinates=" + MAVEN_COORDINATES],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":any_sketch",
+        ":sketch_protos",
+        ":sketch_sql",
+        ":value_function",
+        "//src/main/java/org/wfanet/anysketch/aggregators",
+        "//src/main/java/org/wfanet/anysketch/crypto:sketch_encrypter_adapter",
+        "//src/main/java/org/wfanet/anysketch/distributions",
+        "//src/main/java/org/wfanet/anysketch/fingerprinters",
+        "//src/main/proto/wfa/any_sketch:sketch_java_proto",
+        "//src/main/proto/wfa/any_sketch/crypto:el_gamal_key_java_proto",
+        "//src/main/proto/wfa/any_sketch/crypto:sketch_encryption_methods_java_proto",
+    ],
+)
+
+maven_export(
+    name = "anysketch_maven",
+    lib_name = "anysketch",
+    maven_coordinates = MAVEN_COORDINATES,
+    tags = [
+        "no-remote-cache",
     ],
 )

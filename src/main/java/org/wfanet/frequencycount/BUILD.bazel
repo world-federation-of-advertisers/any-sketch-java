@@ -1,6 +1,11 @@
+load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_jvm_external//:defs.bzl", "maven_export")
 load("@wfa_rules_swig//java:defs.bzl", "java_wrap_cc")
+load("//build/maven:defs.bzl", "artifact_version")
 
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//src/test/java/org/wfanet/frequencycount:__pkg__"])
+
+MAVEN_COORDINATES = "org.wfanet.measurement.anysketch:frequency-count:" + artifact_version()
 
 java_wrap_cc(
     name = "secret_share_generator_adapter",
@@ -9,5 +14,21 @@ java_wrap_cc(
     package = "org.wfanet.frequencycount",
     deps = [
         "@any_sketch//src/main/cc/frequency_count:secret_share_generator_adapter",
+    ],
+)
+
+java_library(
+    name = "frequencycount",
+    tags = ["maven_coordinates=" + MAVEN_COORDINATES],
+    visibility = ["//visibility:public"],
+    exports = [":secret_share_generator_adapter"],
+)
+
+maven_export(
+    name = "frequencycount_maven",
+    lib_name = "frequencycount",
+    maven_coordinates = MAVEN_COORDINATES,
+    tags = [
+        "no-remote-cache",
     ],
 )

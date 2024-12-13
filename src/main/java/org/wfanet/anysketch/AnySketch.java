@@ -20,12 +20,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.OptionalInt;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.stream.IntStream;
-import org.wfanet.anysketch.AnySketch.Register;
 import org.wfanet.anysketch.distributions.Distribution;
 
 /**
@@ -33,7 +32,7 @@ import org.wfanet.anysketch.distributions.Distribution;
  * Bloom filters, HLLs, Cascading Legions, Vector of Counts, and other sketch types. It uses a map
  * of register keys to a register value which is a tuple of numeric values.
  */
-public class AnySketch implements Iterable<Register> {
+public class AnySketch implements Iterable<AnySketch.Register> {
   /** Represents a single register of an AnySketch. */
   public static class Register {
 
