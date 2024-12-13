@@ -1,6 +1,10 @@
 load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_jvm_external//:defs.bzl", "maven_export")
+load("//build/maven:defs.bzl", "artifact_version")
 
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//src/test/java/org/wfanet/sampling:__pkg__"])
+
+MAVEN_COORDINATES = "org.wfanet.measurement.anysketch:sampling:" + artifact_version()
 
 java_library(
     name = "vid_sampler",
@@ -9,5 +13,23 @@ java_library(
     ],
     deps = [
         "//imports/com/google/common:guava",
+    ],
+)
+
+java_library(
+    name = "sampling",
+    tags = ["maven_coordinates=" + MAVEN_COORDINATES],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":vid_sampler",
+    ],
+)
+
+maven_export(
+    name = "sampling_maven",
+    lib_name = "sampling",
+    maven_coordinates = MAVEN_COORDINATES,
+    tags = [
+        "no-remote-cache",
     ],
 )
